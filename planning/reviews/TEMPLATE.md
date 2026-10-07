@@ -1,0 +1,71 @@
+---
+schema: 1
+kind: step_review
+finding_contract: 3
+step_id: STEP-NNN
+verdict: pass
+reviewer_role: reviewer
+created_at: YYYY-MM-DDTHH:MM:SSZ
+reviewed_revision:
+  git_head: null
+  worktree_hash: null
+specialized_reviews:
+  gate_basis: sha256:...
+  required: []
+  implementation_baseline: null
+  surface_mode: clean-tree-fallback
+  changed_paths_hash: sha256:...
+  baseline_status: missing
+  baseline_reason: implementation baseline is missing
+  security: not_required
+  security_evidence: null
+  security_reason: no_security_surface
+  tests: not_required
+  tests_evidence: null
+  tests_reason: no_test_surface
+---
+
+# STEP REVIEW STEP-NNN — YYYY-MM-DD HH:MM
+
+## Scope checked
+
+- Task contract
+- REQ/ADR/OQ/architecture refs
+- Implementation plan
+- Diff/current code
+- Tests/verification
+
+## Findings
+
+При PASS material findings отсутствуют.
+
+### F-001 — Title
+
+**Severity:** high
+**Category:** implementation
+**Location:** path:line / component
+**Scenario:** Given / When / Then
+**Expected:** ...
+**Observed:** ...
+**Impact:** ...
+**Evidence kind:** contract | reproduced | inferred
+**Evidence source:** exact REQ/ADR/STEP, reproducer или origin гипотезы
+**Verification method:** самый дешёвый решающий check/reproducer
+**Verification result:** фактический результат проверки
+**Confirmed preconditions:**
+- для inferred finding перечислить проверенные необходимые предпосылки
+**Evidence:**
+- concrete repository/runtime evidence
+**Fix direction:** ...
+
+## Machine-readable findings
+
+Новые reports используют Review Contract v3. Каждый material finding обязан содержать `evidenceBasis` с `verification.outcome: confirmed`. Invalidated/unverified hypotheses сюда не попадают.
+
+## Verification observations
+
+Зафиксировать реальные проверки и ограничения доказательств.
+
+## Verdict rationale
+
+Кратко объяснить, почему verdict следует из findings и evidence.
