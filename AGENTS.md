@@ -19,7 +19,9 @@ Accepted ADR не переписывай задним числом. Расхож
 <!-- PROJECT-CONTEXT:START -->
 ## Project context
 
-Проект ещё не инициализирован. До успешного `PROJECT INIT` не создавай production-код и не придумывай product-specific архитектуру. Сырой вход находится по configured `.harness/manifest.yaml → sources.localBrief`.
+Release Canary — private долгоживущий downstream Harness-проект. Назначение и ограничения: `docs/PROJECT.md`; ownership/lifecycle: `docs/architecture.md`; устойчивые решения: ADR-001/002/003. Первичный INIT использует установленный Harness 0.11.2.
+
+`main` хранит accepted stable baseline. Candidate проверяется только в disposable copy; qualification не даёт разрешения commit/push/merge в canary. Canary хранит project-owned state и consumer contract; Harness core владеет общими primitives, maintainer-tools — release orchestration/Check/publish gate. Representative state появляется normal STEP/workflows; не создавать fake reports и не портить fixture вручную. Не добавлять product runtime/БД или специальный release engine.
 <!-- PROJECT-CONTEXT:END -->
 
 ## 2. Bootstrap любой canonical command

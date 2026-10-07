@@ -1,24 +1,15 @@
 <!-- PROJECT:START -->
-# AI Development Harness — новый проект
+# AI Development Harness Release Canary
 
-Проект ещё не инициализирован.
+Private downstream Harness-проект для pre-release проверки обновления накопленного стабильного состояния до exact candidate SHA. `main` хранит accepted stable baseline; qualification работает в disposable copy. Bootstrap использует установленный Harness 0.11.2.
 
-1. Создай локальный brief:
+- [Назначение и ограничения](docs/PROJECT.md).
+- [Architecture и ownership](docs/architecture.md).
+- [Требования](docs/requirements/SPEC.md), [ADR](docs/adr/README.md).
+- [Roadmap](planning/PLAN.md), [состояние](planning/STATUS.md).
+- [Локальные проверки](docs/development.md).
 
-   ```bash
-   cp PROJECT_BRIEF.example.md PROJECT_BRIEF.local.md
-   ```
-
-2. Опиши проект своими словами в `PROJECT_BRIEF.local.md`: цель, пользователей, сценарии, ограничения, предпочтительный стек, референсы и любые важные заметки.
-3. При необходимости скопируй `AGENTS.local.example.md` в `AGENTS.local.md` и добавь локальные команды/предпочтения.
-4. Открой репозиторий в Codex или Claude Code.
-5. Выполни:
-
-   ```text
-   PROJECT INIT
-   ```
-
-После успешной инициализации агент заменит **только этот блок** описанием конкретного проекта, ключевыми ссылками и текущей точкой входа в разработку.
+После INIT следующая работа — `STEP PLAN STEP-001`: representative project-owned state. Preflight/promotion и external consumer interface оформлены отдельными STEP. Release orchestration и publish gate принадлежат maintainer-tools, общие qualification primitives — Harness core. Этот bootstrap не означает успешную candidate qualification или проверенный доступ release App.
 <!-- PROJECT:END -->
 
 ## Зависимости
