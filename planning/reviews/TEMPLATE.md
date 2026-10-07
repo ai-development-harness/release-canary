@@ -34,6 +34,8 @@ specialized_reviews:
 - Implementation plan
 - Diff/current code
 - Tests/verification
+- Canary: exact baseline commit, Harness source ref/revision и ownership inventory.
+- Сохранность Accepted ADR и immutable history; границы локальных и внешних gates.
 
 ## Findings
 
@@ -65,6 +67,8 @@ specialized_reviews:
 ## Verification observations
 
 Зафиксировать реальные проверки и ограничения доказательств.
+
+Для canary укажи command, exit code и ссылку на фактическое evidence; отдельно проверь сохранность baseline artifacts. Отсутствующий external runner, release App access или candidate upgrade не обозначай как выполненный PASS.
 
 ## Verdict rationale
 

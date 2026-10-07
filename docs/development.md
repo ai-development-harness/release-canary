@@ -16,10 +16,13 @@ Git и Python 3.11+ согласно Harness dependencies. Локальный IN
 ```text
 PROJECT STATUS
 STEP NEXT
-STEP PLAN STEP-001
+HARNESS STATUS
+HARNESS DOCTOR
 ```
 
 STEP-001 формирует representative state; STEP-002 — preflight/promotion contract; STEP-003 — consumer interface external qualification. Plan и independent review обязательны до mutation соответствующего STEP.
+
+См. [inventory и происхождение STEP-001](canary-state.md) и [baseline preflight/promotion contract](canary-baseline.md). Local health PASS проверяет tooling/integrity рабочего состояния; promotion дополнительно требует clean accepted baseline, exact source/target identities, published/accepted stable release и полного review/gates. Pending project changes не становятся опубликованным baseline без отдельного canonical Git workflow.
 
 ## Testing
 
@@ -28,8 +31,10 @@ STEP-001 формирует representative state; STEP-002 — preflight/promoti
 ```bash
 python3 .harness/tools/sync-projections.py
 python3 .harness/tools/validate.py --mode manual
+python3 .harness/tools/migrate-project-schema.py --check --json
 python3 .harness/tools/traceability-coverage.py --json
 python3 .harness/tools/check-command-references.py --json
+python3 .harness/tools/harness-ux.py doctor --json
 python3 .harness/tools/run-self-tests.py
 ```
 
