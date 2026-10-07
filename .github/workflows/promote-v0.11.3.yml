@@ -511,6 +511,11 @@ jobs:
         run: |
           set -euo pipefail
 
+          # GITHUB_TOKEN не может менять .github/workflows/**.
+          # Эти два файла будут синхронизированы отдельными GitHub API commits
+          # после успешного promotion run.
+          git restore --source=HEAD --             .github/workflows/harness-integrity.yml             .github/workflows/promote-v0.11.3.yml
+
           git diff --check
 
           git config user.name "github-actions[bot]"
