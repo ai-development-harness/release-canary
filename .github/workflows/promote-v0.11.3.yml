@@ -42,9 +42,17 @@ jobs:
 
           [[ "$GITHUB_REF_NAME" == "promotion/v0.11.3" ]]
 
-          PARENT_SHA="$(git rev-parse HEAD^)"
-          if [[ "$PARENT_SHA" != "$BASELINE_SHA" ]]; then
-            echo "Promotion branch parent $PARENT_SHA != accepted baseline $BASELINE_SHA" >&2
+          if ! git merge-base --is-ancestor "$BASELINE_SHA" HEAD; then
+            echo "Accepted baseline $BASELINE_SHA is not an ancestor of promotion HEAD." >&2
+            exit 1
+          fi
+
+          mapfile -t PRE_PROMOTION_PATHS < <(
+            git diff --name-only "$BASELINE_SHA"...HEAD
+          )
+          if [[ "${#PRE_PROMOTION_PATHS[@]}" -ne 1 ]] ||
+             [[ "${PRE_PROMOTION_PATHS[0]}" != ".github/workflows/promote-v0.11.3.yml" ]]; then
+            printf 'Unexpected pre-promotion branch changes:\n%s\n' "${PRE_PROMOTION_PATHS[*]}" >&2
             exit 1
           fi
 
@@ -140,6 +148,12 @@ jobs:
           )
           print(f"project-owned baseline files: {len(snapshot)}")
           PY
+
+      - name: Remove one-shot workflow before Harness validation
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm .github/workflows/promote-v0.11.3.yml
 
       - name: Apply accepted stable v0.11.3
         shell: bash
