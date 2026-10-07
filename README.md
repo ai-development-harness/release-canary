@@ -8,6 +8,7 @@ Private downstream Harness-проект для pre-release проверки об
 - [Требования](docs/requirements/SPEC.md), [ADR](docs/adr/README.md).
 - [Roadmap](planning/PLAN.md), [состояние](planning/STATUS.md).
 - [Локальные проверки](docs/development.md).
+- [Интерфейс внешней Release Qualification](docs/canary-qualification.md).
 
 После INIT следующая работа — `STEP PLAN STEP-001`: representative project-owned state. Preflight/promotion и external consumer interface оформлены отдельными STEP. Release orchestration и publish gate принадлежат maintainer-tools, общие qualification primitives — Harness core. Этот bootstrap не означает успешную candidate qualification или проверенный доступ release App.
 <!-- PROJECT:END -->
