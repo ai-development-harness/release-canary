@@ -8,7 +8,7 @@ import subprocess
 import tempfile
 
 
-from self_test_fixture import isolate_project_artifacts
+from self_test_fixture import copy_effective_harness_checkout, isolate_project_artifacts
 from template_contract import template_targets
 
 
@@ -31,26 +31,8 @@ def run(root: Path, *args: str, check: bool = True) -> subprocess.CompletedProce
 
 
 def copy_tracked_files(target: Path) -> None:
-    """Скопировать tracked checkout без изменения project-owned state."""
-    raw = subprocess.run(
-        ["git", "ls-files", "-z"],
-        cwd=SOURCE_ROOT,
-        stdout=subprocess.PIPE,
-        check=True,
-    ).stdout
-    for token in raw.split(b"\0"):
-        if not token:
-            continue
-        rel = token.decode("utf-8")
-        source = SOURCE_ROOT / rel
-        # Tracked path, удалённый из working tree, но не из index (обычный `rm`
-        # без `git rm`), fixture не нужен — пропускаем вместо traceback.
-        if not source.is_file():
-            continue
-        destination = target / rel
-        destination.parent.mkdir(parents=True, exist_ok=True)
-        shutil.copy2(source, destination)
-
+    """Скопировать effective Harness checkout без project-owned untracked state."""
+    copy_effective_harness_checkout(SOURCE_ROOT, target)
 
 def init_git(target: Path) -> None:
     """Подготовить isolated fixture как самостоятельный Git repository."""
@@ -347,6 +329,37 @@ def main() -> int:
         require_failure(validate(root), "harness-policy: unsupported settings: required_filez")
         require_failure(validate(root), "harness-policy: required_files must be a string array")
         harness_policy_path.write_text(harness_policy_original, encoding="utf-8")
+
+        # Regression #275: required Harness file обязан быть installable через
+        # ровно один updater ownership class.
+        update_policy_path = root / ".harness/harness-update.toml"
+        update_policy_original = update_policy_path.read_text(encoding="utf-8")
+        update_policy_path.write_text(
+            update_policy_original.replace(
+                '  ".harness/stress-tests.json",\n',
+                "",
+                1,
+            ),
+            encoding="utf-8",
+        )
+        require_failure(
+            validate(root),
+            "required file is not covered by updater ownership: .harness/stress-tests.json",
+        )
+
+        update_policy_path.write_text(
+            update_policy_original.replace(
+                'shared = [\n',
+                'shared = [\n  ".harness/stress-tests.json",\n',
+                1,
+            ),
+            encoding="utf-8",
+        )
+        require_failure(
+            validate(root),
+            "required file matches multiple updater ownership classes: .harness/stress-tests.json",
+        )
+        update_policy_path.write_text(update_policy_original, encoding="utf-8")
 
         # Codex role config не может выйти за canonical .codex/agents даже если
         # target существует и resolve() успешно его находит.
