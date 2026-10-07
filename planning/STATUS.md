@@ -5,8 +5,7 @@
 ## Summary
 
 - total: 3
-- completed: 2
-- planned: 1
+- completed: 3
 
 ## In progress
 
@@ -18,8 +17,8 @@
 
 ## Next unblocked work
 
-STEP-003
+—
 
 ## Recent completed
 
-STEP-001, STEP-002
+STEP-001, STEP-002, STEP-003

@@ -47,6 +47,10 @@ Private repository; main — accepted stable baseline; candidate не push/merge
 
 Воспроизводимость по baseline commit/candidate SHA; идемпотентность; изоляция canonical state; fail-closed diagnostics и сохранение истории. Минимальный стек Git/Python 3.11+ и текстовые артефакты; compatibility horizon следует core.
 
+## Consumer contract
+
+[Интерфейс внешней Release Qualification](canary-qualification.md) описывает exact inputs, disposable lifecycle, evidence и external prerequisites. Документационный contract не подтверждает выполненную e2e qualification или доступ release App.
+
 ## Референсы и внешние источники
 
 - [Canary contract, core #263](https://github.com/ai-development-harness/ai-development-harness-template/issues/263).
