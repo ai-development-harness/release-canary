@@ -20,4 +20,6 @@ ADR фиксирует **устойчивое архитектурное реш�
 
 ## Index
 
-`PROJECT INIT` заполняет этот раздел фактическими ADR.
+- [ADR-001 — Стабильный baseline и изолированный candidate](ADR-001-stable-baseline-isolation.md).
+- [ADR-002 — Ownership и сохранение downstream истории](ADR-002-ownership-preservation.md).
+- [ADR-003 — Exact revisions и fail-closed evidence lifecycle](ADR-003-qualification-contract.md).
