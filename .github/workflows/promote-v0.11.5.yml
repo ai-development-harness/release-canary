@@ -84,8 +84,8 @@ jobs:
           lock = json.loads(Path(".harness/harness.lock.json").read_text(encoding="utf-8"))
           if lock.get("release") != "0.11.4":
               raise SystemExit("baseline lock release must be 0.11.4")
-          if (lock.get("source") or {}).get("ref") != "v0.11.5":
-              raise SystemExit("baseline lock source.ref must be v0.11.5")
+          if (lock.get("source") or {}).get("ref") != "v0.11.4":
+              raise SystemExit("baseline lock source.ref must be v0.11.4")
           PY
 
       - name: Snapshot project-owned baseline state
@@ -492,7 +492,7 @@ jobs:
           ## Identity
 
           - Accepted baseline commit: `{os.environ["BASELINE_SHA"]}`
-          - Previous stable Harness: `v0.11.5`
+          - Previous stable Harness: `v0.11.4`
           - Accepted target tag: `{os.environ["TARGET_TAG"]}`
           - Exact target Harness SHA: `{os.environ["TARGET_SHA"]}`
           - Promotion run: {os.environ["PROMOTION_RUN_URL"]}
