@@ -5,13 +5,15 @@ name: Harness Integrity
 # GitHub Actions events, на которых выполняется baseline Harness validation.
 # Пример: pull_request в main и push в main после merge.
 on:
-  # Проверять Pull Request, направленный в main.
-  # Пример: feature/token-budget → main запускает Harness Integrity.
+  # Проверять PR как в main, так и в общие feature/integration-ветки.
+  # Пример: fix/284-evidence-freshness → feature/orchestration-reliability-2026-10.
   pull_request:
-    # Ограничить base branch основной веткой проекта.
-    # Пример: main.
+    # Feature branches используются как промежуточный integration target:
+    # на них нужен тот же deterministic gate до финального PR в main.
+    # Пример: main или feature/orchestration-reliability-2026-10.
     branches:
       - main
+      - 'feature/**'
   # После merge PR GitHub создаёт push в main — это отдельная финальная проверка.
   # Пример: squash merge PR → push нового commit в main → Harness Integrity.
   push:
@@ -250,13 +252,29 @@ jobs:
         # Targeted regression set platform-sensitive tools.
         # Пример: execution, verification и update engine.
         run: |
-          python .harness/tools/harness-config-self-test.py
-          python .harness/tools/document-contract-self-test.py
-          python .harness/tools/execution-self-test.py
-          python .harness/tools/step-next-self-test.py
-          python .harness/tools/verification-self-test.py
-          python .harness/tools/reliable-orchestration-fault-self-test.py
-          python .harness/tools/update-engine-self-test.py
+          # В PowerShell ошибка native python не прерывает следующие команды
+          # автоматически: успешный последний тест мог скрыть предыдущий FAIL.
+          # Проверяем код возврата каждого скрипта отдельно (#302).
+          function Invoke-HarnessSelfTest {
+            param([string]$Script)
+            python $Script
+            if ($LASTEXITCODE -ne 0) {
+              throw "Self-test failed: $Script (exit $LASTEXITCODE)"
+            }
+          }
+          Invoke-HarnessSelfTest ".harness/tools/harness-config-self-test.py"
+          Invoke-HarnessSelfTest ".harness/tools/document-contract-self-test.py"
+          Invoke-HarnessSelfTest ".harness/tools/execution-self-test.py"
+          Invoke-HarnessSelfTest ".harness/tools/step-next-self-test.py"
+          Invoke-HarnessSelfTest ".harness/tools/verification-self-test.py"
+          Invoke-HarnessSelfTest ".harness/tools/reliable-orchestration-fault-self-test.py"
+          Invoke-HarnessSelfTest ".harness/tools/portable-handoff-self-test.py"
+          Invoke-HarnessSelfTest ".harness/tools/portable-resume-self-test.py"
+          Invoke-HarnessSelfTest ".harness/tools/portable-resume-matrix-self-test.py"
+          Invoke-HarnessSelfTest ".harness/tools/operational-reports-self-test.py"
+          Invoke-HarnessSelfTest ".harness/tools/operational-completion-self-test.py"
+          Invoke-HarnessSelfTest ".harness/tools/operational-integration-self-test.py"
+          Invoke-HarnessSelfTest ".harness/tools/update-engine-self-test.py"
 
   # Проверить нижнюю документированную границу Python отдельно от основного 3.13 job.
   # Пример: использование API, появившегося только в 3.12+, должно ломать этот job.
