@@ -1,0 +1,70 @@
+[
+  {
+    "name": "unchanged",
+    "executable": true
+  },
+  {
+    "name": "architecture-description",
+    "executable": true
+  },
+  {
+    "name": "requirement-changed",
+    "executable": true
+  },
+  {
+    "name": "superseded-adr",
+    "executable": true
+  },
+  {
+    "name": "future-open-question",
+    "executable": true
+  },
+  {
+    "name": "historical-anchor-renamed",
+    "executable": true
+  },
+  {
+    "name": "old-review-metadata",
+    "executable": true
+  },
+  {
+    "name": "completed-dependency-changed",
+    "executable": true
+  },
+  {
+    "name": "ancestor-review-missing",
+    "executable": true
+  },
+  {
+    "name": "direct-review-missing",
+    "executable": false
+  },
+  {
+    "name": "direct-review-corrupt",
+    "executable": false
+  },
+  {
+    "name": "direct-evidence-missing",
+    "executable": false
+  },
+  {
+    "name": "direct-verification-failed",
+    "executable": false
+  },
+  {
+    "name": "direct-not-completed",
+    "executable": false
+  },
+  {
+    "name": "active-dependency-missing",
+    "executable": false
+  },
+  {
+    "name": "active-cycle",
+    "executable": false
+  },
+  {
+    "name": "consumer-plan-stale",
+    "executable": false
+  }
+]
